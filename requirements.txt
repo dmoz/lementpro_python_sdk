@@ -1,0 +1,13 @@
+pytest==4.5.0
+allure-pytest==2.6.3
+requests==2.22.0
+selenium==3.141.0
+selene==1.0.0a13
+PyVirtualDisplay==0.2.1
+lxml==4.2.1
+PyYAML==3.12
+pymssql
+Flask==1.0.2
+ruamel.yaml==0.15.37
+openpyxl==2.5.3
+neo4j==1.7.0b4
