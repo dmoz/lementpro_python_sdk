@@ -13,7 +13,7 @@ __email__ = "nalivayko.ev@gmail.com"
 
 class ActionService(object):
 
-    def send_massage_to_external_user(self, object, external_emails_list, message, st_code=200):
+    def send_message_to_external_user(self, object, external_emails_list, message, st_code=200):
         action_controller = ActionController()
         response = action_controller.send_massage_to_external_user(object, external_emails_list, message, st_code)
         return response

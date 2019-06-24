@@ -14,8 +14,8 @@ __email__ = "nalivayko.ev@gmail.com"
 auth_service = AuthService()
 object_service = ObjectService()
 
-user = User(username="enalivayko", password="31455761Wc")
-server = Server(host="https://sodislab.lement.pro")
+user = User(username="enalivayko", password="xxxxxx")
+server = Server(host="https://xxxx.lement.pro")
 
 auth_service.login(user=user, server=server)
 

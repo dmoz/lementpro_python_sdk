@@ -1,4 +1,5 @@
 # lementpro_python_sdk
+  version 1.0.1
 
 ### Предусловия
 * Установить python версии 3.6 
@@ -26,8 +27,8 @@ object_service = ObjectService()
 * Используйте методы сервисов и модели объектов для выполнения задуманного в LementPro
 ```bash
 # подготавливаем обьект площадки и юзера
-user = User(username="enalivayko", password="enalivayko")
-server = Server(host="https://lementtest.lement.pro")
+user = User(username="enalivayko", password="xxxxxx")
+server = Server(host="https://xxxxx.lement.pro")
 # авторизуемся, токен будет сохранен в sdk и использован для последующих вызовов
 auth_service.login(user=user, server=server)
 # подготавливаем обьект для создания

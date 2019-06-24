@@ -3,7 +3,7 @@
 
 """ This module is """
 
-# imports
+
 import datetime
 import re
 
@@ -170,13 +170,28 @@ class OperationLogService(object):
             if i["employeeId"] == empl:
                 for obj in i["objects"]:
                     for change in obj["changes"]:
-                        if change["changeType"] == "SuccessSignaturing" or change["changeType"] == "SuccessApproving" or change["changeType"] == "ApprovingDeclined" or change["changeType"] == "SignaturingDeclined":
+                        if change["changeType"] in ["SuccessSignaturing", "SuccessApproving", "ApprovingDeclined", "SignaturingDeclined", "ApprovingCanceled", "SignaturingCanceled"]:
                             doc = dict()
                             doc["id"] = obj["objectId"]
                             doc["name"] = obj["objectName"]
-                            doc["comment"] = change["commentText"]
+                            doc["comment"] = change["changeDescription"]
                             docs.append(doc)
         return docs
+
+    def _get_time_object(self, date_action):
+        try:
+            result = re.search(r'\((.*?)\)', date_action)
+            result = result[1]
+            arg_t = int(result[0:-3])
+        except:
+            arg_t = None
+
+        if arg_t is not None:
+            if arg_t < 0:
+                date_action = datetime.datetime(1970, 1, 1) + datetime.timedelta(seconds=arg_t)
+            else:
+                date_action = datetime.datetime.utcfromtimestamp(arg_t)
+        return date_action
 
     def get_actions_in_tasks(self, empl, data):
         actions_tasks = list()
@@ -184,14 +199,18 @@ class OperationLogService(object):
             if i["employeeId"] == empl:
                 for obj in i["objects"]:
                     purpos_object = dict()
-                    comments = list()
+                    comments = ""
                     purpos_object["id"] = obj["objectId"]
                     purpos_object["name"] = obj["objectName"]
                     for chang in obj["changes"]:
                         if chang["changeType"] == "CommentAdded":
-                            com_text = chang["commentText"]
-                            comments.append(com_text)
-                    if comments:
+                            com_texts = obj["userComments"]
+                            for comment in com_texts:
+                                time_action = self._get_time_object(comment["commentDate"])
+                                comment_text = comment["simplifiedMessage"]
+                                str_purpose = "\n{}\n{}\n".format(time_action, comment_text)
+                                comments = comments + str_purpose
+                    if comments is not "":
                         purpos_object["comments"] = comments
                         actions_tasks.append(purpos_object)
         return actions_tasks
@@ -202,14 +221,20 @@ class OperationLogService(object):
             if i["employeeId"] == empl:
                 for obj in i["objects"]:
                     purpos_object = dict()
-                    comments = list()
+                    comments = ""
                     purpos_object["id"] = obj["objectId"]
                     purpos_object["name"] = obj["objectName"]
                     for chang in obj["changes"]:
                         if chang["changeType"] == "CommentAdded":
-                            com_text = chang["commentText"]
-                            comments.append(com_text)
-                    if comments:
+                            com_texts = obj["userComments"]
+                            for comment in com_texts:
+                                time_action = self._get_time_object(
+                                    comment["commentDate"])
+                                comment_text = comment["simplifiedMessage"]
+                                str_purpose = "\n{}\n{}\n".format(time_action,
+                                                                  comment_text)
+                                comments = comments + str_purpose
+                    if comments is not "":
                         purpos_object["comments"] = comments
                         actions_docs.append(purpos_object)
         return actions_docs
