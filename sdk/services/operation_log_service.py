@@ -38,6 +38,44 @@ class OperationLogService(object):
                             closed_tasks.append(ct)
         return closed_tasks
 
+    def get_created_tasks(self, empl, data):
+        created_tasks = list()
+        for i in data:
+            if i["employeeId"] == empl:
+                for obj in i["objects"]:
+                    for chang in obj["changes"]:
+                        if chang["changeType"] == "TaskCreated":
+                            ct = dict()
+                            ct["id"] = obj["objectId"]
+                            ct["name"] = obj["objectName"]
+                            created_tasks.append(ct)
+                        elif chang["changeType"] == "Other":
+                            if "<span class='comment-span'>Создан:" in chang["changeDescription"]:
+                                ct = dict()
+                                ct["id"] = obj["objectId"]
+                                ct["name"] = obj["objectName"]
+                                created_tasks.append(ct)
+        return created_tasks
+
+    def get_created_docs(self, empl, data):
+        created_docs = list()
+        for i in data:
+            if i["employeeId"] == empl:
+                for obj in i["objects"]:
+                    for chang in obj["changes"]:
+                        if chang["changeType"] == "DocumentCreated":
+                            ct = dict()
+                            ct["id"] = obj["objectId"]
+                            ct["name"] = obj["objectName"]
+                            created_docs.append(ct)
+                        elif chang["changeType"] == "Other":
+                            if "<span class='comment-span'>Создан:" in chang["changeDescription"]:
+                                ct = dict()
+                                ct["id"] = obj["objectId"]
+                                ct["name"] = obj["objectName"]
+                                created_docs.append(ct)
+        return created_docs
+
     def get_tasks(self, date_from=None, date_to=None, add_closed=True):
         folder_object = FolderObject()
         folder_object.name = "Все задачи 777"
