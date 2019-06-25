@@ -27,11 +27,21 @@ class OperationLogService(object):
 
     def get_closed_tasks(self, empl, data):
         closed_tasks = list()
+        object_service = ObjectService()
         for i in data:
             if i["employeeId"] == empl:
                 for obj in i["objects"]:
                     for chang in obj["changes"]:
                         if chang["changeType"] == "TaskClosed":
+                            # проверить если перед этим была передача контролеру, то не засчитывать как закрытую для этого юзера
+                            actions = object_service.get_actions_by_id(obj["objectId"])
+                            if actions[1]["message"] != "<span>Объект изменен:</span><br /><span>Задача ожидает подтверждения завершения</span><br />":
+                                ct = dict()
+                                ct["id"] = obj["objectId"]
+                                ct["name"] = obj["objectName"]
+                                closed_tasks.append(ct)
+                        elif chang["changeType"] == "TaskSendToController":
+                            # проверить что задача закрыта контролером (хотя пользователь можно считать закрыл эту задачу, дело за контролером)
                             ct = dict()
                             ct["id"] = obj["objectId"]
                             ct["name"] = obj["objectName"]
