@@ -235,6 +235,14 @@ class ObjectService(object):
         except:
             return object_values[field_need_report]
 
+    def get_employ_full_name(self, employ):
+        """get get_employ_full_name for user by id user
+         in employee custom category"""
+        object_user = self.get_object_by_id(employ)
+        object_values = object_user["object"]["values"]
+        return object_values["name"]
+
+
     def get_employ_id(self, employ):
         """get employs id for employ"""
         field_employ = None

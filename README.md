@@ -1,5 +1,5 @@
 # lementpro_python_sdk
-  version 1.0.1
+  version 1.0.2
 
 ### Предусловия
 * Установить python версии 3.6 
