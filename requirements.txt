@@ -5,7 +5,7 @@ selenium==3.141.0
 selene==1.0.0a13
 PyVirtualDisplay==0.2.1
 lxml==4.2.1
-PyYAML==3.12
+PyYAML==5.1
 pymssql
 Flask==1.0.2
 ruamel.yaml==0.15.37
