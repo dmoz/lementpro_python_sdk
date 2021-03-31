@@ -4,7 +4,7 @@ requests==2.22.0
 selenium==3.141.0
 selene==1.0.0a13
 PyVirtualDisplay==0.2.1
-lxml==4.2.1
+lxml==4.6.3
 PyYAML==3.12
 pymssql
 Flask==1.0.2
